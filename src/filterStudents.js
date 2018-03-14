@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import { Nav, ButtonGroup } from 'react-bootstrap';
-import { NavItem } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-import { Tab } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-
+import { Nav, ButtonGroup,NavItem, Row, Tab, Button, Col } from 'react-bootstrap';
 
 
 const Filter = () => (

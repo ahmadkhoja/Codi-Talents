@@ -1,0 +1,40 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.container{
+  margin-left: 30%;
+  background-color: rgb(36, 119, 228);
+  width: 70%;
+}
+
+.profile{
+  position: relative;
+  left:200px;
+  height: 100px;
+}
+.filter{
+  width: 30%;
+  display: inline-block;
+  height: 300px;
+  position: fixed;
+  background-color: lightblue;
+  height: 100%;
+}
+
+.student-image{
+  width:150px;
+  height:150px;
+  background-size:cover;
+  border-radius:50%;
+  background-repeat:no-repeat;
+  background-position:50% 50%;
+  overflow:hidden;
+}
+
+.caption:hover{
+  
+  background-color: rgba(212, 212, 37,0.5)
+}

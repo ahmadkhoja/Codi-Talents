@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Grid, Row, Thumbnail, Col } from 'react-bootstrap';
 import { Nav, ButtonGroup,NavItem, Tab,  } from 'react-bootstrap';
 // import FilterStudents from './filterStudents';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
 
 const create_student = (name, availability, skills, favorite,likesteamwork,city,image) => 
 { return { 
@@ -150,10 +151,12 @@ setSkillFilter = (skillFilter) => {
   </Row>
 </Tab.Container>
   </div>
+  <button onClick={this.handleAdd}>Add Item</button>
     <Grid>
       <Row>
-      { students_list.length ? students_list : <div>no results...</div> }
-        {/* <Student name="Ahmad Khoja"    image={studentImage} availability="3months" skills="react" favorite="react" /> */}
+        <ReactCSSTransitionGroup transitionName={"student"} transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+          { students_list.length ? students_list : <div>no results...</div> }
+        </ReactCSSTransitionGroup>
       </Row>
     </Grid>
     </div>

@@ -6,7 +6,7 @@ body {
 
 .container{
   margin-left: 30%;
-  background-color: rgb(36, 119, 228);
+  background-color: rgb(4, 8, 59);
   width: 70%;
 }
 
@@ -20,7 +20,7 @@ body {
   display: inline-block;
   height: 300px;
   position: fixed;
-  background-color: lightblue;
+  background-color: rgb(80, 86, 138);
   height: 100%;
 }
 
@@ -35,6 +35,8 @@ body {
 }
 
 .caption:hover{
-  
-  background-color: rgba(212, 212, 37,0.5)
+    background-color: rgba(4, 50, 71, 0.5)
 }
+
+#active
+{color: red,}

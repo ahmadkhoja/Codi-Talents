@@ -1,3 +1,7 @@
+body, html, #root{
+  height:100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -60,4 +64,14 @@ body {
   opacity: 0.01;
   height:0;
   transition: opacity 300ms ease-in;
+}
+@media screen and (max-width : 992px){
+  .col-md-4{
+    width:46%    
+  }
+}
+@media screen and (max-width : 620px){
+  .col-md-4{
+    width:90%    
+  }
 }

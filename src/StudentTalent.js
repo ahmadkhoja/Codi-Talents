@@ -56,31 +56,43 @@ class StudentTalent extends Component {
     cityFilter: "",
     skillFilter:"",
     availableFilter:""
-  };
+  }
+  randomStudentList = (a)=> { // Fisher-Yates shuffle, no side effects
+    var i = a.length, t, j;
+    a = a.slice()
+    while (--i){
+      t = a[i]
+      a[i] = a[j = ~~(Math.random() * (i+1))]
+      a[j] = t
+    } 
+    return a
+  }
  renderStudents() {
     const city = this.state.cityFilter;
     const skill = this.state.skillFilter;
     const availabile = this.state.availableFilter;
     
+    let studentList = this.randomStudentList(students)
     if(city){
+      
       return (
-        students.filter( student=>student.city ===  city).map(
+        studentList.filter( student=>student.city ===  city).map(
         (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
     }
     else if(skill){
       return (
-        students.filter( student=>student.skills ===  skill).map(
+        studentList.filter( student=>student.skills ===  skill).map(
         (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
     }else if(availabile){
       return (
-        students.filter( student=>student.availability ===  availabile).map(
+        studentList.filter( student=>student.availability ===  availabile).map(
         (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
     }else{
       return (
-        students.map(
+        studentList.map(
           (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
   }
@@ -91,6 +103,7 @@ class StudentTalent extends Component {
 //   const cityFilter = input.value;
 //   this.setState({ cityFilter });
 // }
+
  setCityFilter = (cityFilter) => {
    this.setState({ cityFilter, skillFilter:'', availableFilter:'' })
   };

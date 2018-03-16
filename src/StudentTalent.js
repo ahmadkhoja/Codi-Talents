@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Grid, Row, Thumbnail, Col } from 'react-bootstrap';
 import { Nav, ButtonGroup,NavItem, Tab,  } from 'react-bootstrap';
 // import FilterStudents from './filterStudents';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
 
 const create_student = (name, availability, skills, favorite,likesteamwork,city,image) => 
 { return { 
@@ -55,31 +56,43 @@ class StudentTalent extends Component {
     cityFilter: "",
     skillFilter:"",
     availableFilter:""
-  };
+  }
+  randomStudentList = (a)=> { // Fisher-Yates shuffle, no side effects
+    var i = a.length, t, j;
+    a = a.slice()
+    while (--i){
+      t = a[i]
+      a[i] = a[j = ~~(Math.random() * (i+1))]
+      a[j] = t
+    } 
+    return a
+  }
  renderStudents() {
     const city = this.state.cityFilter;
     const skill = this.state.skillFilter;
     const availabile = this.state.availableFilter;
     
+    let studentList = this.randomStudentList(students)
     if(city){
+      
       return (
-        students.filter( student=>student.city ===  city).map(
+        studentList.filter( student=>student.city ===  city).map(
         (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
     }
     else if(skill){
       return (
-        students.filter( student=>student.skills ===  skill).map(
+        studentList.filter( student=>student.skills ===  skill).map(
         (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
     }else if(availabile){
       return (
-        students.filter( student=>student.availability ===  availabile).map(
+        studentList.filter( student=>student.availability ===  availabile).map(
         (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
     }else{
       return (
-        students.map(
+        studentList.map(
           (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
   }
@@ -90,6 +103,7 @@ class StudentTalent extends Component {
 //   const cityFilter = input.value;
 //   this.setState({ cityFilter });
 // }
+
  setCityFilter = (cityFilter) => {
    this.setState({ cityFilter, skillFilter:'', availableFilter:'' })
   };
@@ -150,10 +164,16 @@ setSkillFilter = (skillFilter) => {
   </Row>
 </Tab.Container>
   </div>
+  <button onClick={this.handleAdd}>Add Item</button>
     <Grid>
       <Row>
+
       { students_list.length ? students_list : <div><p><font size="10" color="BLue">No Result has been found</font></p></div> }
         {/* <Student name="Ahmad Khoja"    image={studentImage} availability="3months" skills="react" favorite="react" /> */}
+
+        <ReactCSSTransitionGroup transitionName={"student"} transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+          { students_list.length ? students_list : <div>no results...</div> }
+        </ReactCSSTransitionGroup>
       </Row>
     </Grid>
     </div>

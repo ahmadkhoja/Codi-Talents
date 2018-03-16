@@ -45,10 +45,33 @@ body {
 }
 
 .caption:hover{
-    background-color: rgba(4, 50, 71, 0.5)
+    background-color: rgba(4, 50, 71, 0.5);
 }
 @media (min-width: 768px){
   .col-sm-8{
     width: 275px;
-  }
+  background-color: rgba(212, 212, 37,0.5);
+}
+}
+.student-enter {
+  opacity: 0.01;
+  height:0;
+  overflow:hidden;
+}
+
+.student-enter.student-enter-active {
+  opacity: 1;
+  height:500px;
+  transition: opacity 500ms ease-in;
+}
+
+.student-leave {
+  opacity: 1;
+  height:500px;
+}
+
+.student-leave.student-leave-active {
+  opacity: 0.01;
+  height:0;
+  transition: opacity 300ms ease-in;
 }

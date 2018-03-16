@@ -55,7 +55,9 @@ class StudentTalent extends Component {
   state = {
     cityFilter: "",
     skillFilter:"",
-    availableFilter:""
+    availableFilter:"",
+    all:"",
+    two:""
   }
   randomStudentList = (a)=> { // Fisher-Yates shuffle, no side effects
     var i = a.length, t, j;
@@ -71,6 +73,8 @@ class StudentTalent extends Component {
     const city = this.state.cityFilter;
     const skill = this.state.skillFilter;
     const availabile = this.state.availableFilter;
+    const all = this.state.all;
+    const two = this.state.two;
     
     let studentList = this.randomStudentList(students)
     if(city){
@@ -90,12 +94,22 @@ class StudentTalent extends Component {
         studentList.filter( student=>student.availability ===  availabile).map(
         (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
-    }else{
+    }else if(all){
       return (
         studentList.map(
           (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
-  }
+  }else if(two){
+    return (
+      studentList.map(
+        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
+    )
+  }else{
+    return (
+      studentList.map(
+        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
+      )
+    }
     
  }
 //  onChange = (evt) => {
@@ -104,14 +118,20 @@ class StudentTalent extends Component {
 //   this.setState({ cityFilter });
 // }
 
- setCityFilter = (cityFilter) => {
-   this.setState({ cityFilter, skillFilter:'', availableFilter:'' })
+  setCityFilter = (cityFilter) => {
+   this.setState({ cityFilter, skillFilter:'', availableFilter:'',all:'' })
   };
-setSkillFilter = (skillFilter) => {
-   this.setState({ skillFilter, availableFilter:'', cityFilter:'' })
+  setSkillFilter = (skillFilter) => {
+   this.setState({ skillFilter, availableFilter:'', cityFilter:'',all:'' })
   };
   setAvailabileFilter = (availableFilter) => {
-    this.setState({ availableFilter, cityFilter:'', skillFilter:'' })
+    this.setState({ availableFilter, cityFilter:'', skillFilter:'',all:'' })
+   };
+   showAll = (all) => {
+    this.setState({ all, cityFilter:'', skillFilter:'',availableFilter:'' })
+   };
+   showTwo = (two) => {
+    this.setState({ two,all:'', cityFilter:'', skillFilter:'',availableFilter:'' })
    };
   render() {
     const students_list = this.renderStudents()
@@ -126,6 +146,7 @@ setSkillFilter = (skillFilter) => {
         <NavItem eventKey="first">Places</NavItem>
         <NavItem eventKey="second">Skills</NavItem>
         <NavItem eventKey="third">Availability</NavItem>
+        <NavItem eventKey="fourth">Show Students</NavItem>
       </Nav>
     </Col>
     <Col sm={8}>
@@ -158,6 +179,14 @@ setSkillFilter = (skillFilter) => {
                 <Button onClick={() => this.setAvailabileFilter("2")}>In less than 2 month</Button>
                 <Button onClick={() => this.setAvailabileFilter("3")}>3months or more</Button>
             </ButtonGroup>
+        </Tab.Pane>
+        <Tab.Pane eventKey="fourth">
+          <Button onClick={() => this.showAll()} vertical block>
+            Show All
+          </Button>
+          <Button onClick={() => this.showTwo()} vertical block>
+            Show Two
+          </Button>
         </Tab.Pane>
       </Tab.Content>
     </Col>

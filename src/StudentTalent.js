@@ -152,7 +152,7 @@ setSkillFilter = (skillFilter) => {
   </div>
     <Grid>
       <Row>
-      { students_list.length ? students_list : <div>no results...</div> }
+      { students_list.length ? students_list : <div><p><font size="10" color="BLue">No Result has been found</font></p></div> }
         {/* <Student name="Ahmad Khoja"    image={studentImage} availability="3months" skills="react" favorite="react" /> */}
       </Row>
     </Grid>

@@ -6,7 +6,7 @@ body {
 
 .container{
   margin-left: 30%;
-  background-color: rgb(4, 8, 59);
+  background-color: rgb(61, 61, 61);
   width: 70%;
 }
 
@@ -17,11 +17,21 @@ body {
 }
 .filter{
   width: 30%;
-  display: inline-block;
-  height: 300px;
   position: fixed;
-  background-color: rgb(80, 86, 138);
+  background-color: rgb(165, 165, 165);
   height: 100%;
+}
+
+
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    width: 129px;
+    background-color: #eee;
+}
+.nav-stacked>li {
+  float: none;
+  width: 130px;
 }
 
 .student-image{
@@ -37,6 +47,8 @@ body {
 .caption:hover{
     background-color: rgba(4, 50, 71, 0.5)
 }
-
-#active
-{color: red,}
+@media (min-width: 768px){
+  .col-sm-8{
+    width: 275px;
+  }
+}

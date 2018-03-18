@@ -15,19 +15,17 @@ const create_student = (name, availability, skills, favorite,likesteamwork,city,
   }
 }
 
-
-
 const students = [
-  create_student('Adam', '3 months', 'PHP', 'Reading', 'yes'     ,'beirut'),
-  create_student('mostafa', '1 month', 'PHP', 'Reading', 'yes'     ,'beirut'),
-  create_student('ninja', '2 months', 'PHP', 'Reading', 'yes'     ,'saida'),
-  create_student('pirate', '3 months', 'PHP', 'Reading', 'yes'     ,'jbeil'),
+  create_student('Adam', '3', 'PHP', 'Reading', 'yes'     ,'beirut'),
+  create_student('mostafa', '1', 'PHP', 'Reading', 'yes'     ,'beirut'),
+  create_student('ninja', '2', 'PHP', 'Reading', 'yes'     ,'saida'),
+  create_student('pirate', '3', 'PHP', 'Reading', 'yes'     ,'jbeil'),
   create_student('mimi', 'available', 'PHP', 'Reading', 'yes'     ,'beirut'),
-  create_student('Ahmad', '2 months', 'REACT', 'Sport', 'yes'  ,'saida'),
-  create_student('Amjad', 'Available', 'HTML', 'Swimming', 'yes','tripoli'),
-  create_student('Hala', 'Available', 'javascript', 'Reading', 'yes'    ,'jounyeh'),
-  create_student('Rami', 'Available', 'WORDPRESS', 'Sport', 'yes'   ,'jbeil'),
-  create_student('Rima', '1 month', 'LARAVEL', 'Walking', 'yes'  ,'tyre')
+  create_student('Ahmad', '2', 'REACT', 'Sport', 'yes'  ,'saida'),
+  create_student('Amjad', 'available', 'HTML', 'Swimming', 'yes','tripoli'),
+  create_student('Hala', 'available', 'javascript', 'Reading', 'yes'    ,'jounyeh'),
+  create_student('Rami', 'available', 'WORDPRESS', 'Sport', 'yes'   ,'jbeil'),
+  create_student('Rima', '1', 'LARAVEL', 'Walking', 'yes'  ,'tyre')
 ]
 const Student = ({name,availability,skills,favorite,likesteamwork,image,city}) => (
   <Col xs={1} md={4}>
@@ -44,7 +42,7 @@ const Student = ({name,availability,skills,favorite,likesteamwork,image,city}) =
       <p>{favorite}</p>
       <p>Likes Team Work: {likesteamwork}</p>
       <p>
-        <Button bsStyle="primary">See More</Button>&nbsp;
+      <Button bsStyle="primary">See More</Button>&nbsp;
       <Button bsStyle="success">Add to list</Button>
       </p>
     </Thumbnail>
@@ -78,7 +76,6 @@ class StudentTalent extends Component {
     
     let studentList = this.randomStudentList(students)
     if(city){
-      
       return (
         studentList.filter( student=>student.city ===  city).map(
         (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
@@ -119,23 +116,23 @@ class StudentTalent extends Component {
 // }
 
   setCityFilter = (cityFilter) => {
-   this.setState({ cityFilter, skillFilter:'', availableFilter:'',all:'' })
+   this.setState({ cityFilter, skillFilter:'', availableFilter:'',all:'',two:''})
   };
   setSkillFilter = (skillFilter) => {
-   this.setState({ skillFilter, availableFilter:'', cityFilter:'',all:'' })
+   this.setState({ skillFilter, availableFilter:'', cityFilter:'',all:'',two:''  })
   };
   setAvailabileFilter = (availableFilter) => {
-    this.setState({ availableFilter, cityFilter:'', skillFilter:'',all:'' })
+    this.setState({ availableFilter, cityFilter:'', skillFilter:'',all:'',two:'' })
    };
    showAll = (all) => {
-    this.setState({ all, cityFilter:'', skillFilter:'',availableFilter:'' })
+    this.setState({ all, cityFilter:'', skillFilter:'',availableFilter:'',two:'' })
    };
    showTwo = (two) => {
     this.setState({ two,all:'', cityFilter:'', skillFilter:'',availableFilter:'' })
    };
+
   render() {
     const students_list = this.renderStudents()
-
     return (
       <div>
         <div class="filter">
@@ -147,10 +144,6 @@ class StudentTalent extends Component {
         <NavItem eventKey="second">Skills</NavItem>
         <NavItem eventKey="third">Availability</NavItem>
         <NavItem eventKey="fourth">Show Students</NavItem>
-        <NavItem eventKey="first"><p><font size="5" color="Black">City</font></p></NavItem>
-        <NavItem eventKey="second"><p><font size="5" color="black">Skill</font></p></NavItem>
-        <NavItem eventKey="third"><p><font size="5" color="black">Availability</font></p></NavItem>
-
       </Nav>
     </Col>
     <Col sm={8}>
@@ -196,33 +189,28 @@ class StudentTalent extends Component {
     </Col>
   </Row>
 </Tab.Container>
-  </div>
-  <button onClick={this.handleAdd}>Add Item</button>
-    <Grid>
+  
+   </div>
+   <Grid>
       <Row>
-
-      { students_list.length ? students_list : <div><p><font size="10" color="BLue">No Result has been found</font></p></div> }
-        {/* <Student name="Ahmad Khoja"    image={studentImage} availability="3months" skills="react" favorite="react" /> */}
-
         <ReactCSSTransitionGroup transitionName={"student"} transitionEnterTimeout={500} transitionLeaveTimeout={300}>
           { students_list.length ? students_list : <div>no results...</div> }
         </ReactCSSTransitionGroup>
       </Row>
-    </Grid>
-    </div>
-)
-  }
+    </Grid>  
+  </div>
+)}
 }
+  
 
 class talentPage extends Component {
   render() {
     return (
       <div>
-      {/* <FilterStudents /> */}
       <StudentTalent />
       </div>
 )
   }
 }
 
-export default talentPage;
+export default talentPage

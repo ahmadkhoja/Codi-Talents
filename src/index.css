@@ -50,8 +50,7 @@ body {
 @media (min-width: 768px){
   .col-sm-8{
     width: 275px;
-  background-color: rgba(212, 212, 37,0.5);
-}
+  }
 }
 .student-enter {
   opacity: 0.01;

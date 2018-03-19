@@ -1,8 +1,101 @@
 import React, { Component } from 'react';
 import { Button, Grid, Row, Thumbnail, Col } from 'react-bootstrap';
-import { Nav, ButtonGroup,NavItem, Tab,  } from 'react-bootstrap';
+import { Nav,ButtonGroup,NavItem,Tab,Modal,FormGroup,FormControl,ControlLabel,HelpBlock } from 'react-bootstrap';
 // import FilterStudents from './filterStudents';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
+
+const FieldGroup = ({ id, label, help, ...props }) => {
+  return (
+    <FormGroup controlId={id}>
+      <ControlLabel>{label}</ControlLabel>
+      <FormControl {...props} />
+      {help && <HelpBlock>{help}</HelpBlock>}
+    </FormGroup>
+  );
+}
+
+const FormInstance = () => {
+  return (<div>
+    <FieldGroup
+      id="formControlsText"
+      type="text"
+      label="Company Name"
+      placeholder="Enter Your Company's Name"
+    />
+    <FieldGroup
+      id="formControlsEmail"
+      type="email"
+      label="Email address"
+      placeholder="Enter email"
+    />
+    <FieldGroup
+      id="formControlsFile"
+      type="file"
+      label="Upload Something:"
+      // help="Example block-level help text here."
+    />
+    
+    <FormGroup controlId="formControlsTextarea" bsSize ="large">
+      <ControlLabel>Message</ControlLabel>
+      <FormControl componentClass="textarea" placeholder="Write Something..." />
+    </FormGroup>
+
+    {/* <FormGroup>
+      <ControlLabel>Static text</ControlLabel>
+      <FormControl.Static>email@example.com</FormControl.Static>
+    </FormGroup> */}
+
+    <Button type="submit">Submit</Button>
+  </div>
+  )};
+
+
+class Example extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+
+    this.state = {
+      show: false
+    };
+  }
+
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  render() {
+    return (
+      <div>
+        <Button bsStyle="primary" bsSize="medium" onClick={this.handleShow}>
+          Contact with Student
+        </Button>
+
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Codi Cycle 2</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {/* Form Instance */}
+            {/* Student Rating  */}
+            <h1>Student Contact</h1>
+            <FormInstance />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.handleClose}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
+  }
+}
+
 
 const create_student = (name, availability, skills, favorite,likesteamwork,city,image) => 
 { return { 
@@ -42,7 +135,8 @@ const Student = ({name,availability,skills,favorite,likesteamwork,image,city}) =
       <p>{favorite}</p>
       <p>Likes Team Work: {likesteamwork}</p>
       <p>
-      <Button bsStyle="primary">See More</Button>&nbsp;
+      {/* <Button bsStyle="primary">See More</Button>&nbsp; */}
+      <Example />
       <Button bsStyle="success">Add to list</Button>
       </p>
     </Thumbnail>
@@ -54,8 +148,8 @@ class StudentTalent extends Component {
     cityFilter: "",
     skillFilter:"",
     availableFilter:"",
-    all:"",
-    two:""
+    all:false,
+    two:false
   }
   randomStudentList = (a)=> { // Fisher-Yates shuffle, no side effects
     var i = a.length, t, j;
@@ -73,7 +167,7 @@ class StudentTalent extends Component {
     const availabile = this.state.availableFilter;
     const all = this.state.all;
     const two = this.state.two;
-    
+    console.log(all,'::',two)
     let studentList = this.randomStudentList(students)
     if(city){
       return (
@@ -98,7 +192,7 @@ class StudentTalent extends Component {
       )
   }else if(two){
     return (
-      studentList.map(
+      studentList.slice(0,2).map(
         (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
     )
   }else{
@@ -109,11 +203,7 @@ class StudentTalent extends Component {
     }
     
  }
-//  onChange = (evt) => {
-//   const input = evt.target;
-//   const cityFilter = input.value;
-//   this.setState({ cityFilter });
-// }
+ 
 
   setCityFilter = (cityFilter) => {
    this.setState({ cityFilter, skillFilter:'', availableFilter:'',all:'',two:''})
@@ -124,18 +214,23 @@ class StudentTalent extends Component {
   setAvailabileFilter = (availableFilter) => {
     this.setState({ availableFilter, cityFilter:'', skillFilter:'',all:'',two:'' })
    };
-   showAll = (all) => {
-    this.setState({ all, cityFilter:'', skillFilter:'',availableFilter:'',two:'' })
+   showAll = () => {
+    this.setState({ all:true, cityFilter:'', skillFilter:'',availableFilter:'',two:'' })
    };
-   showTwo = (two) => {
-    this.setState({ two,all:'', cityFilter:'', skillFilter:'',availableFilter:'' })
+   showTwo = () => {
+    this.setState({ two:true ,all:'', cityFilter:'', skillFilter:'',availableFilter:'' })
    };
 
   render() {
     const students_list = this.renderStudents()
     return (
-      <div>
-        <div class="filter">
+    <div>
+      <div className="filter">
+      
+        <div className="searchBar"> 
+            <input type="text" placeholder="Search for..."/>
+        </div>
+
     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
   <Row className="clearfix">
     <Col sm={4}>

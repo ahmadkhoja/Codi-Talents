@@ -149,7 +149,8 @@ class StudentTalent extends Component {
     skillFilter:"",
     availableFilter:"",
     all:false,
-    two:false
+    two:false,
+    userList:[]
   }
   randomStudentList = (a)=> { // Fisher-Yates shuffle, no side effects
     var i = a.length, t, j;

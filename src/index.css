@@ -74,3 +74,29 @@ body {
   height:0;
   transition: opacity 300ms ease-in;
 }
+
+.searchBar input[type=text] {
+  width: 150px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  /* background-color: white; */
+  background-image: url('./searchicon.png');
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+  margin-bottom: 10px;
+}
+
+textarea {
+  resize: none;
+  width: 300px;
+  height: 150px;
+}
+
+.searchBar input[type=text]:focus {
+  width: 100%;
+}

@@ -15,8 +15,6 @@ const create_student = (name, availability, skills, favorite,likesteamwork,city,
   }
 }
 
-
-
 const students = [
   create_student('Adam', '3', 'PHP', 'Reading', 'yes'     ,'beirut'),
   create_student('mostafa', '1', 'PHP', 'Reading', 'yes'     ,'beirut'),
@@ -37,14 +35,14 @@ const Student = ({name,availability,skills,favorite,likesteamwork,image,city}) =
       <h2>{name}</h2>
       <h3>City: {city}</h3>
       <h3>Availability: </h3>
-      <p>{availability} months</p>
+      <p>{availability}</p>
       <h3>Skills: </h3>
       <p>{skills}</p>
       <hr />
       <p>{favorite}</p>
       <p>Likes Team Work: {likesteamwork}</p>
       <p>
-        <Button bsStyle="primary">See More</Button>&nbsp;
+      <Button bsStyle="primary">See More</Button>&nbsp;
       <Button bsStyle="success">Add to list</Button>
       </p>
     </Thumbnail>
@@ -55,7 +53,9 @@ class StudentTalent extends Component {
   state = {
     cityFilter: "",
     skillFilter:"",
-    availableFilter:""
+    availableFilter:"",
+    all:"",
+    two:""
   }
   randomStudentList = (a)=> { // Fisher-Yates shuffle, no side effects
     var i = a.length, t, j;
@@ -71,10 +71,11 @@ class StudentTalent extends Component {
     const city = this.state.cityFilter;
     const skill = this.state.skillFilter;
     const availabile = this.state.availableFilter;
+    const all = this.state.all;
+    const two = this.state.two;
     
     let studentList = this.randomStudentList(students)
     if(city){
-      
       return (
         studentList.filter( student=>student.city ===  city).map(
         (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
@@ -90,12 +91,22 @@ class StudentTalent extends Component {
         studentList.filter( student=>student.availability ===  availabile).map(
         (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
-    }else{
+    }else if(all){
       return (
         studentList.map(
           (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
       )
-  }
+  }else if(two){
+    return (
+      studentList.map(
+        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
+    )
+  }else{
+    return (
+      studentList.map(
+        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
+      )
+    }
     
  }
 //  onChange = (evt) => {
@@ -104,18 +115,24 @@ class StudentTalent extends Component {
 //   this.setState({ cityFilter });
 // }
 
- setCityFilter = (cityFilter) => {
-   this.setState({ cityFilter, skillFilter:'', availableFilter:'' })
+  setCityFilter = (cityFilter) => {
+   this.setState({ cityFilter, skillFilter:'', availableFilter:'',all:'',two:''})
   };
-setSkillFilter = (skillFilter) => {
-   this.setState({ skillFilter, availableFilter:'', cityFilter:'' })
+  setSkillFilter = (skillFilter) => {
+   this.setState({ skillFilter, availableFilter:'', cityFilter:'',all:'',two:''  })
   };
   setAvailabileFilter = (availableFilter) => {
-    this.setState({ availableFilter, cityFilter:'', skillFilter:'' })
+    this.setState({ availableFilter, cityFilter:'', skillFilter:'',all:'',two:'' })
    };
+   showAll = (all) => {
+    this.setState({ all, cityFilter:'', skillFilter:'',availableFilter:'',two:'' })
+   };
+   showTwo = (two) => {
+    this.setState({ two,all:'', cityFilter:'', skillFilter:'',availableFilter:'' })
+   };
+
   render() {
     const students_list = this.renderStudents()
-
     return (
       <div>
         <div class="filter">
@@ -126,18 +143,19 @@ setSkillFilter = (skillFilter) => {
         <NavItem eventKey="first">Places</NavItem>
         <NavItem eventKey="second">Skills</NavItem>
         <NavItem eventKey="third">Availability</NavItem>
+        <NavItem eventKey="fourth">Show Students</NavItem>
       </Nav>
     </Col>
     <Col sm={8}>
       <Tab.Content animation>
         <Tab.Pane eventKey="first">
             <ButtonGroup vertical block>
-                <Button onClick={() => this.setCityFilter("beirut")}>Beirut</Button>
-                <Button onClick={() => this.setCityFilter("saida")}>Saida</Button>
-                <Button onClick={() => this.setCityFilter("tripoli")}>Tripoli</Button>
-                <Button onClick={() => this.setCityFilter("jounyeh")}>Jounyeh</Button>
-                <Button onClick={() => this.setCityFilter("jbeil")}>Jbiel</Button>
-                <Button onClick={() => this.setCityFilter("tyre")}>Tyre</Button>
+                <Button onClick={() => this.setCityFilter("beirut")}><h4>Beirut</h4></Button>
+                <Button onClick={() => this.setCityFilter("saida")}><h4>Saida</h4></Button>
+                <Button onClick={() => this.setCityFilter("tripoli")}><h4>Tripoli</h4></Button>
+                <Button onClick={() => this.setCityFilter("jounyeh")}><h4>Jounyeh</h4></Button>
+                <Button onClick={() => this.setCityFilter("jbeil")}><h4>Jbiel</h4></Button>
+                <Button onClick={() => this.setCityFilter("tyre")}><h4>Tyre</h4></Button>
             </ButtonGroup>
         </Tab.Pane>
         <Tab.Pane eventKey="second">
@@ -159,33 +177,40 @@ setSkillFilter = (skillFilter) => {
                 <Button onClick={() => this.setAvailabileFilter("3")}>3months or more</Button>
             </ButtonGroup>
         </Tab.Pane>
+        <Tab.Pane eventKey="fourth">
+          <Button onClick={() => this.showAll()} vertical block>
+            Show All
+          </Button>
+          <Button onClick={() => this.showTwo()} vertical block>
+            Show Two
+          </Button>
+        </Tab.Pane>
       </Tab.Content>
     </Col>
   </Row>
 </Tab.Container>
-  </div>
-  <button onClick={this.handleAdd}>Add Item</button>
-    <Grid>
+  
+   </div>
+   <Grid>
       <Row>
         <ReactCSSTransitionGroup transitionName={"student"} transitionEnterTimeout={500} transitionLeaveTimeout={300}>
           { students_list.length ? students_list : <div>no results...</div> }
         </ReactCSSTransitionGroup>
       </Row>
-    </Grid>
-    </div>
-)
-  }
+    </Grid>  
+  </div>
+)}
 }
+  
 
 class talentPage extends Component {
   render() {
     return (
       <div>
-      {/* <FilterStudents /> */}
       <StudentTalent />
       </div>
 )
   }
 }
 
-export default talentPage;
+export default talentPage

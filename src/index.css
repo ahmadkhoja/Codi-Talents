@@ -1,3 +1,7 @@
+body, html, #root{
+  height:100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -99,4 +103,14 @@ textarea {
 
 .searchBar input[type=text]:focus {
   width: 100%;
+}
+@media screen and (max-width:1000px){
+  .col-xs-1{
+    width:50%;
+  }
+}
+@media screen and (max-width:675px){
+  .col-xs-1{
+  width:100%;
+  }
 }

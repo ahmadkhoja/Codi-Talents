@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Nav, ButtonGroup,NavItem, Row, Tab, Button, Col } from 'react-bootstrap';
-
+import MediaQuery from 'react-responsive';
 
 const Filter = () => (
+
   <div class="filter">
     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
   <Row className="clearfix">

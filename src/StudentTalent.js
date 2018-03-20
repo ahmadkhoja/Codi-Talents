@@ -74,7 +74,7 @@ class Example extends React.Component {
     return (
       <div>
         <Button bsStyle="primary" bsSize="medium" onClick={this.handleShow}>
-          Contact with Student
+          Contact {this.props.name}
         </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
@@ -84,7 +84,7 @@ class Example extends React.Component {
           <Modal.Body>
             {/* Form Instance */}
             {/* Student Rating  */}
-            <h1>Student Contact</h1>
+            <h1>Contact {this.props.name}</h1>
             <FormInstance />
           </Modal.Body>
           <Modal.Footer>
@@ -120,7 +120,8 @@ const students = [
   create_student('Rami', 'available', 'WORDPRESS', 'Sport', 'yes'   ,'jbeil'),
   create_student('Rima', '1', 'LARAVEL', 'Walking', 'yes'  ,'tyre')
 ]
-const Student = ({name,availability,skills,favorite,likesteamwork,image,city}) => (
+
+const Student = ({name,availability,skills,favorite,likesteamwork,image,city,onSecondButtonClick}) => (
   <Col xs={1} md={4}>
     <Thumbnail >
       {/* <Image src={image} width="150px" height="150px" circle /> */}
@@ -136,8 +137,8 @@ const Student = ({name,availability,skills,favorite,likesteamwork,image,city}) =
       <p>Likes Team Work: {likesteamwork}</p>
       <p>
       {/* <Button bsStyle="primary">See More</Button>&nbsp; */}
-      <Example />
-      <Button bsStyle="success">Add to list</Button>
+      <Example name={name} />
+      <Button bsStyle="success" onClick={()=>onSecondButtonClick(name)}>Add to list</Button>
       </p>
     </Thumbnail>
   </Col>
@@ -148,13 +149,15 @@ class StudentTalent extends Component {
     cityFilter: "",
     skillFilter:"",
     availableFilter:"",
-    all:false,
+    search:"",
     two:false,
-    userList:[]
+    userList:[],
+    studentAdded:false,
   }
   randomStudentList = (a)=> { // Fisher-Yates shuffle, no side effects
     var i = a.length, t, j;
     a = a.slice()
+    if(i===0){return []}
     while (--i){
       t = a[i]
       a[i] = a[j = ~~(Math.random() * (i+1))]
@@ -165,61 +168,57 @@ class StudentTalent extends Component {
  renderStudents() {
     const city = this.state.cityFilter;
     const skill = this.state.skillFilter;
-    const availabile = this.state.availableFilter;
-    const all = this.state.all;
+    const available = this.state.availableFilter;
     const two = this.state.two;
-    console.log(all,'::',two)
-    let studentList = this.randomStudentList(students)
-    if(city){
-      return (
-        studentList.filter( student=>student.city ===  city).map(
-        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
-      )
-    }
-    else if(skill){
-      return (
-        studentList.filter( student=>student.skills ===  skill).map(
-        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
-      )
-    }else if(availabile){
-      return (
-        studentList.filter( student=>student.availability ===  availabile).map(
-        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
-      )
-    }else if(all){
-      return (
-        studentList.map(
-          (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
-      )
-  }else if(two){
-    return (
-      studentList.slice(0,2).map(
-        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
+    const userList = this.state.userList;
+    const studentAdded = this.state.studentAdded; 
+    const searchChange = this.searchChange
+    const filteredStudents = students.filter( student => {
+      if(city){
+        if(student.city !== city){return false}
+      }
+      if(skill){
+        if(student.skills !== skill){return false}
+      }
+      if(available){
+        if(student.availability !== available){ return false}
+      }
+      return true
+    })
+    const studentList = this.randomStudentList(filteredStudents)
+    const finalStudentList = two ? studentList.slice(0,2) : studentList
+    const reactStudents = finalStudentList.map(
+      (student) => <Student onSecondButtonClick={searchChange} image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> 
     )
-  }else{
-    return (
-      studentList.map(
-        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
-      )
-    }
-    
+    return reactStudents;
  }
  
-
+  searchChange = (search) => {
+    this.setState({search})
+  }
   setCityFilter = (cityFilter) => {
-   this.setState({ cityFilter, skillFilter:'', availableFilter:'',all:'',two:''})
+   this.setState({ cityFilter })
   };
   setSkillFilter = (skillFilter) => {
-   this.setState({ skillFilter, availableFilter:'', cityFilter:'',all:'',two:''  })
+   this.setState({ skillFilter })
   };
   setAvailabileFilter = (availableFilter) => {
-    this.setState({ availableFilter, cityFilter:'', skillFilter:'',all:'',two:'' })
+    this.setState({ availableFilter })
    };
    showAll = () => {
-    this.setState({ all:true, cityFilter:'', skillFilter:'',availableFilter:'',two:'' })
+    this.setState({ cityFilter:'', skillFilter:'',availableFilter:'',two:'' })
    };
    showTwo = () => {
-    this.setState({ two:true ,all:'', cityFilter:'', skillFilter:'',availableFilter:'' })
+    this.setState({ two:true, cityFilter:'', skillFilter:'',availableFilter:'' })
+   };
+
+   showAddToList =() => {
+     let userList = []
+     let element = create_student('mohammad', '1', 'DRUPAL', 'Walking', 'yes'  ,'tyre')
+    //  console.log(userList)
+    userList = this.state.userList.slice()
+    userList.push(element)
+    this.setState({ userList:userList,studentAdded:true,two:false ,all:false, cityFilter:'', skillFilter:'',availableFilter:'' })
    };
 
   render() {
@@ -229,7 +228,7 @@ class StudentTalent extends Component {
       <div className="filter">
       
         <div className="searchBar"> 
-            <input type="text" placeholder="Search for..."/>
+            <input onChange={(evt)=>this.searchChange(evt.target.value)} type="text" placeholder="Search for..." value={this.state.search}/>
         </div>
 
     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
@@ -240,6 +239,11 @@ class StudentTalent extends Component {
         <NavItem eventKey="second">Skills</NavItem>
         <NavItem eventKey="third">Availability</NavItem>
         <NavItem eventKey="fourth">Show Students</NavItem>
+        <div>
+          { ( this.state.cityFilter? <div>{this.state.cityFilter}</div> : null ) }
+          { ( this.state.skillFilter? <div>{this.state.skillFilter}</div> : null ) }
+          { ( this.state.availableFilter? <div>{this.state.availableFilter}</div> : null ) }
+        </div>
       </Nav>
     </Col>
     <Col sm={8}>
@@ -280,6 +284,9 @@ class StudentTalent extends Component {
           <Button onClick={() => this.showTwo()} vertical block>
             Show Two
           </Button>
+          <Button bsStyle="success" onClick={() => this.showAddToList()}>
+        Add to list
+        </Button>
         </Tab.Pane>
       </Tab.Content>
     </Col>
@@ -290,7 +297,8 @@ class StudentTalent extends Component {
    <Grid>
       <Row>
         <ReactCSSTransitionGroup transitionName={"student"} transitionEnterTimeout={500} transitionLeaveTimeout={300}>
-          { students_list.length ? students_list : <div>no results...</div> }
+          {students_list}
+          {/* { students_list.length ? students_list : <div>no results...</div> } */}
         </ReactCSSTransitionGroup>
       </Row>
     </Grid>  

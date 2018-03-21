@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Button, Grid, Row, Thumbnail, Col } from 'react-bootstrap';
-import { Nav, ButtonGroup,NavItem, Tab,  } from 'react-bootstrap';
+import { Nav, ButtonGroup, NavItem, Tab, } from 'react-bootstrap';
 // import FilterStudents from './filterStudents';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
+import { CSSTransition } from "react-transition-group";
 
-const create_student = (name, availability, skills, favorite,likesteamwork,city,image) => 
-{ return { 
-    name, 
+
+const create_student = (name, availability, skills, favorite, likesteamwork, city, image) => {
+  return {
+    name,
     availability,
     skills,
     favorite,
@@ -18,22 +20,33 @@ const create_student = (name, availability, skills, favorite,likesteamwork,city,
 
 
 const students = [
-  create_student('Adam', '3 months', 'PHP', 'Reading', 'yes'     ,'beirut'),
-  create_student('mostafa', '1 month', 'PHP', 'Reading', 'yes'     ,'beirut'),
-  create_student('ninja', '2 months', 'PHP', 'Reading', 'yes'     ,'saida'),
-  create_student('pirate', '3 months', 'PHP', 'Reading', 'yes'     ,'jbeil'),
-  create_student('mimi', 'available', 'PHP', 'Reading', 'yes'     ,'beirut'),
-  create_student('Ahmad', '2 months', 'REACT', 'Sport', 'yes'  ,'saida'),
-  create_student('Amjad', 'Available', 'HTML', 'Swimming', 'yes','tripoli'),
-  create_student('Hala', 'Available', 'javascript', 'Reading', 'yes'    ,'jounyeh'),
-  create_student('Rami', 'Available', 'WORDPRESS', 'Sport', 'yes'   ,'jbeil'),
-  create_student('Rima', '1 month', 'LARAVEL', 'Walking', 'yes'  ,'tyre')
+  create_student('Adam', '3 months', 'PHP', 'Reading', 'yes', 'beirut'),
+  create_student('mostafa', '1 month', 'PHP', 'Reading', 'yes', 'beirut'),
+  create_student('ninja', '2 months', 'PHP', 'Reading', 'yes', 'saida'),
+  create_student('pirate', '3 months', 'PHP', 'Reading', 'yes', 'jbeil'),
+  create_student('mimi', 'available', 'PHP', 'Reading', 'yes', 'beirut'),
+  create_student('Ahmad', '2 months', 'REACT', 'Sport', 'yes', 'saida'),
+  create_student('Amjad', 'Available', 'HTML', 'Swimming', 'yes', 'tripoli'),
+  create_student('Hala', 'Available', 'javascript', 'Reading', 'yes', 'jounyeh'),
+  create_student('Rami', 'Available', 'WORDPRESS', 'Sport', 'yes', 'jbeil'),
+  create_student('Rima', '1 month', 'LARAVEL', 'Walking', 'yes', 'tyre')
 ]
-const Student = ({name,availability,skills,favorite,likesteamwork,image,city}) => (
+
+
+const Fade = ({ children }) => (
+  <CSSTransition timeout={1000} classNames="fade">
+    {children}
+  </CSSTransition>
+);
+
+
+
+
+const Student = ({ name, availability, skills, favorite, likesteamwork, image, city }) => (
   <Col xs={1} md={4}>
     <Thumbnail >
       {/* <Image src={image} width="150px" height="150px" circle /> */}
-      <div className='student-image' style={ {backgroundImage:`url(${image})`} } > </div>
+      <div className='student-image' style={{ backgroundImage: `url(${image})` }} > </div>
       <h2>{name}</h2>
       <h3>City: {city}</h3>
       <h3>Availability: </h3>
@@ -45,150 +58,163 @@ const Student = ({name,availability,skills,favorite,likesteamwork,image,city}) =
       <p>Likes Team Work: {likesteamwork}</p>
       <p>
         <Button bsStyle="primary">See More</Button>&nbsp;
-      <Button bsStyle="success">Add to list</Button>
+        <Button bsStyle="success">Add to list</Button>
       </p>
     </Thumbnail>
   </Col>
 )
 
+
+
 class StudentTalent extends Component {
   state = {
     cityFilter: "",
-    skillFilter:"",
-    availableFilter:""
+    skillFilter: "",
+    availableFilter: "",
   }
-  randomStudentList = (a)=> { // Fisher-Yates shuffle, no side effects
+  randomStudentList = (a) => { // Fisher-Yates shuffle, no side effects
     var i = a.length, t, j;
     a = a.slice()
-    while (--i){
+    while (--i) {
       t = a[i]
-      a[i] = a[j = ~~(Math.random() * (i+1))]
+      a[i] = a[j = ~~(Math.random() * (i + 1))]
       a[j] = t
-    } 
+    }
     return a
   }
- renderStudents() {
+  renderStudents() {
     const city = this.state.cityFilter;
     const skill = this.state.skillFilter;
     const availabile = this.state.availableFilter;
-    
+
     let studentList = this.randomStudentList(students)
-    if(city){
-      
+    if (city) {
+
       return (
-        studentList.filter( student=>student.city ===  city).map(
-        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
+        studentList.filter(student => student.city === city).map(
+          (student) => <Student image={'/images/' + student.name + '.jpeg'} {...student} key={student.name} />)
       )
     }
-    else if(skill){
+    else if (skill) {
       return (
-        studentList.filter( student=>student.skills ===  skill).map(
-        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
+        studentList.filter(student => student.skills === skill).map(
+          (student) => <Student image={'/images/' + student.name + '.jpeg'} {...student} key={student.name} />)
       )
-    }else if(availabile){
+    } else if (availabile) {
       return (
-        studentList.filter( student=>student.availability ===  availabile).map(
-        (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
+        studentList.filter(student => student.availability === availabile).map(
+          (student) => <Student image={'/images/' + student.name + '.jpeg'} {...student} key={student.name} />)
       )
-    }else{
+    } else {
       return (
         studentList.map(
-          (student) => <Student image={'/images/'+student.name+'.jpeg'} {...student} key={student.name}/> )
+          (student) => <Student image={'/images/' + student.name + '.jpeg'} {...student} key={student.name} />)
       )
-  }
-    
- }
-//  onChange = (evt) => {
-//   const input = evt.target;
-//   const cityFilter = input.value;
-//   this.setState({ cityFilter });
-// }
+    }
 
- setCityFilter = (cityFilter) => {
-   this.setState({ cityFilter, skillFilter:'', availableFilter:'' })
+  }
+  //  onChange = (evt) => {
+  //   const input = evt.target;
+  //   const cityFilter = input.value;
+  //   this.setState({ cityFilter });
+  // }
+
+  setCityFilter = (cityFilter) => {
+    this.setState({ cityFilter, skillFilter: '', availableFilter: '' })
   };
-setSkillFilter = (skillFilter) => {
-   this.setState({ skillFilter, availableFilter:'', cityFilter:'' })
+  setSkillFilter = (skillFilter) => {
+    this.setState({ skillFilter, availableFilter: '', cityFilter: '' })
   };
   setAvailabileFilter = (availableFilter) => {
-    this.setState({ availableFilter, cityFilter:'', skillFilter:'' })
-   };
+    this.setState({ availableFilter, cityFilter: '', skillFilter: '' })
+  };
   render() {
     const students_list = this.renderStudents()
-
+    console.log(students_list)
     return (
       <div>
         <div class="filter">
-    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-  <Row className="clearfix">
-    <Col sm={4}>
-      <Nav bsStyle="pills" stacked>
-        <NavItem eventKey="first"><p><font size="5" color="Black">City</font></p></NavItem>
-        <NavItem eventKey="second"><p><font size="5" color="black">Skill</font></p></NavItem>
-        <NavItem eventKey="third"><p><font size="5" color="black">Availability</font></p></NavItem>
-      </Nav>
-    </Col>
-    <Col sm={8}>
-      <Tab.Content animation>
-        <Tab.Pane eventKey="first">
-            <ButtonGroup vertical block>
-                <Button onClick={() => this.setCityFilter("beirut")}><h4>Beirut</h4></Button>
-                <Button onClick={() => this.setCityFilter("saida")}><h4>Saida</h4></Button>
-                <Button onClick={() => this.setCityFilter("tripoli")}><h4>Tripoli</h4></Button>
-                <Button onClick={() => this.setCityFilter("jounyeh")}><h4>Jounyeh</h4></Button>
-                <Button onClick={() => this.setCityFilter("jbeil")}><h4>Jbiel</h4></Button>
-                <Button onClick={() => this.setCityFilter("tyre")}><h4>Tyre</h4></Button>
-            </ButtonGroup>
-        </Tab.Pane>
-        <Tab.Pane eventKey="second">
-            <ButtonGroup vertical block>
-                <Button onClick={() => this.setSkillFilter("PHP")}>PHP</Button>
-                <Button onClick={() => this.setSkillFilter("REACT")}>REACT</Button>
-                <Button onClick={() => this.setSkillFilter("WORDPRESS")}>WORDPRESS</Button>
-                <Button onClick={() => this.setSkillFilter("DRUPAL")}>DRUPAL</Button>
-                <Button onClick={() => this.setSkillFilter("LARAVEL")}>LARAVEL</Button>
-                <Button onClick={() => this.setSkillFilter("NODE")}>NODE JS</Button>
-                <Button onClick={() => this.setSkillFilter("javascript")}>JAVASCRIPT</Button>
-            </ButtonGroup>
-        </Tab.Pane>
-        <Tab.Pane eventKey="third">
-            <ButtonGroup vertical block>
-                <Button onClick={() => this.setAvailabileFilter("available")}>Available</Button>
-                <Button onClick={() => this.setAvailabileFilter("1")}>In less than 1 month</Button>
-                <Button onClick={() => this.setAvailabileFilter("2")}>In less than 2 month</Button>
-                <Button onClick={() => this.setAvailabileFilter("3")}>3months or more</Button>
-            </ButtonGroup>
-        </Tab.Pane>
-      </Tab.Content>
-    </Col>
-  </Row>
-</Tab.Container>
-  </div>
-  <button onClick={this.handleAdd}>Add Item</button>
-    <Grid>
-      <Row>
 
-      { students_list.length ? students_list : <div><p><font size="10" color="BLue">No Result has been found</font></p></div> }
-        {/* <Student name="Ahmad Khoja"    image={studentImage} availability="3months" skills="react" favorite="react" /> */}
 
-        <ReactCSSTransitionGroup transitionName={"student"} transitionEnterTimeout={500} transitionLeaveTimeout={300}>
-          { students_list.length ? students_list : <div>no results...</div> }
-        </ReactCSSTransitionGroup>
-      </Row>
-    </Grid>
-    </div>
-)
+
+          <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+            <Row className="clearfix">
+              <Col sm={4}>
+                <Nav bsStyle="pills" stacked>
+                  <NavItem eventKey="first"><p><font size="5" color="Black">City</font></p></NavItem>
+                  <NavItem eventKey="second"><p><font size="5" color="black">Skill</font></p></NavItem>
+                  <NavItem eventKey="third"><p><font size="5" color="black">Availability</font></p></NavItem>
+                </Nav>
+              </Col>
+              <Col sm={8}>
+                <Tab.Content animation>
+                  <Tab.Pane eventKey="first">
+                    <ButtonGroup vertical block>
+                      <Button onClick={() => this.setCityFilter("beirut")}><h4>Beirut</h4></Button>
+                      <Button onClick={() => this.setCityFilter("saida")}><h4>Saida</h4></Button>
+                      <Button onClick={() => this.setCityFilter("tripoli")}><h4>Tripoli</h4></Button>
+                      <Button onClick={() => this.setCityFilter("jounyeh")}><h4>Jounyeh</h4></Button>
+                      <Button onClick={() => this.setCityFilter("jbeil")}><h4>Jbiel</h4></Button>
+                      <Button onClick={() => this.setCityFilter("tyre")}><h4>Tyre</h4></Button>
+                    </ButtonGroup>
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="second">
+                    <ButtonGroup vertical block>
+                      <Button onClick={() => this.setSkillFilter("PHP")}>PHP</Button>
+                      <Button onClick={() => this.setSkillFilter("REACT")}>REACT</Button>
+                      <Button onClick={() => this.setSkillFilter("WORDPRESS")}>WORDPRESS</Button>
+                      <Button onClick={() => this.setSkillFilter("DRUPAL")}>DRUPAL</Button>
+                      <Button onClick={() => this.setSkillFilter("LARAVEL")}>LARAVEL</Button>
+                      <Button onClick={() => this.setSkillFilter("NODE")}>NODE JS</Button>
+                      <Button onClick={() => this.setSkillFilter("javascript")}>JAVASCRIPT</Button>
+                    </ButtonGroup>
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="third">
+                    <ButtonGroup vertical block>
+                      <Button onClick={() => this.setAvailabileFilter("available")}>Available</Button>
+                      <Button onClick={() => this.setAvailabileFilter("1")}>In less than 1 month</Button>
+                      <Button onClick={() => this.setAvailabileFilter("2")}>In less than 2 month</Button>
+                      <Button onClick={() => this.setAvailabileFilter("3")}>3months or more</Button>
+                    </ButtonGroup>
+                  </Tab.Pane>
+                </Tab.Content>
+              </Col>
+            </Row>
+          </Tab.Container>
+        </div>
+        <button onClick={this.handleAdd}>Add Item</button>
+        <Grid>
+          <Row>
+
+            <ReactCSSTransitionGroup className="transition-container" transitionName={"student"} transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+            { students_list.length ? students_list : <div>no results...</div> }
+            </ReactCSSTransitionGroup>
+            
+          </Row>
+        </Grid>
+        <button onClick={() => this.handleAdd()}>studentList</button>
+      </div>
+    );
   }
 }
+
+
+
+
+
+
+
+
+
 
 class talentPage extends Component {
   render() {
     return (
       <div>
-      {/* <FilterStudents /> */}
-      <StudentTalent />
+        {/* <FilterStudents /> */}
+        <StudentTalent />
       </div>
-)
+    )
   }
 }
 

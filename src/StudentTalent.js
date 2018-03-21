@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Grid, Row, Thumbnail, Col } from 'react-bootstrap';
-import { Nav,ButtonGroup,NavItem,Tab,Modal,FormGroup,FormControl,ControlLabel,HelpBlock } from 'react-bootstrap';
+import { Nav, ButtonGroup, NavItem, Tab,Modal,FormGroup,FormControl,ControlLabel,HelpBlock} from 'react-bootstrap';
 // import FilterStudents from './filterStudents';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
+import { CSSTransition } from "react-transition-group";
 
 // const FilterSection = ({city,skill,available,onFilterSelect}) => {
 //   return(
@@ -148,7 +149,7 @@ const Student = ({name,availability,skills,favorite,likesteamwork,image,city,onS
   <Col xs={1} md={4}>
     <Thumbnail >
       {/* <Image src={image} width="150px" height="150px" circle /> */}
-      <div className='student-image' style={ {backgroundImage:`url(${image})`} } > </div>
+      <div className='student-image' style={{ backgroundImage: `url(${image})` }} > </div>
       <h2>{name}</h2>
       <h3>City: {city}</h3>
       <h3>Availability: </h3>
@@ -167,6 +168,8 @@ const Student = ({name,availability,skills,favorite,likesteamwork,image,city,onS
   </Col>
 )
 
+
+
 class StudentTalent extends Component {
   state = {
     cityFilter: "",
@@ -177,18 +180,18 @@ class StudentTalent extends Component {
     userList:[],
     studentAdded:false,
   }
-  randomStudentList = (a)=> { // Fisher-Yates shuffle, no side effects
+  randomStudentList = (a) => { // Fisher-Yates shuffle, no side effects
     var i = a.length, t, j;
     a = a.slice()
     if(i===0){return []}
     while (--i){
       t = a[i]
-      a[i] = a[j = ~~(Math.random() * (i+1))]
+      a[i] = a[j = ~~(Math.random() * (i + 1))]
       a[j] = t
-    } 
+    }
     return a
   }
- renderStudents() {
+  renderStudents() {
     const city = this.state.cityFilter;
     const skill = this.state.skillFilter;
     const available = this.state.availableFilter;
@@ -335,14 +338,25 @@ class StudentTalent extends Component {
 }
   
 
+
+
+
+
+
+
+
+
+
 class talentPage extends Component {
   render() {
     return (
       <div>
       {/* <FilterSection /> */}
       <StudentTalent />
+        {/* <FilterStudents /> */}
+        <StudentTalent />
       </div>
-)
+    )
   }
 }
 

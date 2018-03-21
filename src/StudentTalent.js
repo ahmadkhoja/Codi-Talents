@@ -4,6 +4,18 @@ import { Nav,ButtonGroup,NavItem,Tab,Modal,FormGroup,FormControl,ControlLabel,He
 // import FilterStudents from './filterStudents';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; // ES6
 
+// const FilterSection = ({city,skill,available,onFilterSelect}) => {
+//   return(
+//   <div class="multipleFilters">
+//     <h2>Welcome to Filter Section</h2>
+//     <p>{city}</p>
+//     <p>{skill}</p>
+//     <p>{available}</p>
+//   </div> 
+//   )
+// }
+
+
 const FieldGroup = ({ id, label, help, ...props }) => {
   return (
     <FormGroup controlId={id}>
@@ -12,7 +24,7 @@ const FieldGroup = ({ id, label, help, ...props }) => {
       {help && <HelpBlock>{help}</HelpBlock>}
     </FormGroup>
   );
-}
+} 
 
 const FormInstance = () => {
   return (<div>
@@ -118,7 +130,18 @@ const students = [
   create_student('Amjad', 'available', 'HTML', 'Swimming', 'yes','tripoli'),
   create_student('Hala', 'available', 'javascript', 'Reading', 'yes'    ,'jounyeh'),
   create_student('Rami', 'available', 'WORDPRESS', 'Sport', 'yes'   ,'jbeil'),
-  create_student('Rima', '1', 'LARAVEL', 'Walking', 'yes'  ,'tyre')
+  create_student('Rima', '1', 'LARAVEL', 'Walking', 'yes'  ,'tyre'),
+
+  create_student('batata', '1', 'javascript', 'Reading', 'yes'     ,'beirut'),
+  create_student('samir', '2', 'REACT', 'Reading', 'yes'     ,'beirut'),
+  create_student('joseph', '3', 'HTML', 'Reading', 'yes'     ,'saida'),
+  create_student('jad', '1', 'CSS', 'Reading', 'yes'     ,'jbeil'),
+  create_student('pokemon', 'available', 'WORDPRESS', 'Reading', 'yes'     ,'beirut'),
+  create_student('turtle', 'available', 'PHP', 'Sport', 'yes'  ,'saida'),
+  create_student('bob', '1', 'javascript', 'Swimming', 'yes','tripoli'),
+  create_student('zoro', '2', 'PHP', 'Reading', 'yes'    ,'jounyeh'),
+  create_student('superman', '3', 'WORDPRESS', 'Sport', 'yes'   ,'jbeil'),
+  create_student('spiderman', 'available', 'LARAVEL', 'Walking', 'yes'  ,'tyre')
 ]
 
 const Student = ({name,availability,skills,favorite,likesteamwork,image,city,onSecondButtonClick}) => (
@@ -225,6 +248,11 @@ class StudentTalent extends Component {
     const students_list = this.renderStudents()
     return (
     <div>
+       <div class="multipleFilters">
+          { ( this.state.cityFilter? <div>{this.state.cityFilter}</div> : null ) }
+          { ( this.state.skillFilter? <div>{this.state.skillFilter}</div> : null ) }
+          { ( this.state.availableFilter? <div>{this.state.availableFilter}</div> : null ) }
+      </div>
       <div className="filter">
       
         <div className="searchBar"> 
@@ -239,18 +267,18 @@ class StudentTalent extends Component {
         <NavItem eventKey="second">Skills</NavItem>
         <NavItem eventKey="third">Availability</NavItem>
         <NavItem eventKey="fourth">Show Students</NavItem>
-        <div>
-          { ( this.state.cityFilter? <div>{this.state.cityFilter}</div> : null ) }
-          { ( this.state.skillFilter? <div>{this.state.skillFilter}</div> : null ) }
-          { ( this.state.availableFilter? <div>{this.state.availableFilter}</div> : null ) }
-        </div>
       </Nav>
     </Col>
     <Col sm={8}>
       <Tab.Content animation>
         <Tab.Pane eventKey="first">
             <ButtonGroup vertical block>
-                <Button onClick={() => this.setCityFilter("beirut")}><h4>Beirut</h4></Button>
+                <Button onClick={() => 
+                  this.setCityFilter("beirut")
+                  // this.onFilterSelect("")
+                  }>
+                  <h4>Beirut</h4>
+                  </Button>
                 <Button onClick={() => this.setCityFilter("saida")}><h4>Saida</h4></Button>
                 <Button onClick={() => this.setCityFilter("tripoli")}><h4>Tripoli</h4></Button>
                 <Button onClick={() => this.setCityFilter("jounyeh")}><h4>Jounyeh</h4></Button>
@@ -311,6 +339,7 @@ class talentPage extends Component {
   render() {
     return (
       <div>
+      {/* <FilterSection /> */}
       <StudentTalent />
       </div>
 )

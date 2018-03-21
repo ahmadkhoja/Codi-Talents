@@ -114,3 +114,8 @@ textarea {
   width:100%;
   }
 }
+
+.multipleFilters{
+  border: 1px red solid;
+  text-align: center;
+}
